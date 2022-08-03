@@ -1,0 +1,82 @@
+GENERAL QUESTIONS
+
+What does SQL stand for? - SQL stands for Structured Query Language.
+Name two Python Modules that work with SQL. - For example, sqlite3 and psycopg2.
+
+SQL TABLES
+Which two methods do you know to create tables in SQL? Give an example command for each of them.
+
+Method 1:
+
+CREATE TABLE account (
+     user_id SERIAL PRIMARY KEY,
+	username VARCHAR (50) UNIQUE NOT NULL,
+	password VARCHAR (50) NOT NULL,
+	email VARCHAR (250) UNIQUE NOT NULL,
+	create_on TIMESTAMP NOT NULL,
+	last_login TIMESTAMP);
+
+(comment: SERIAL datatype is used by PostgreSQL for a PRIMARY KEY)
+
+Method 2:
+
+CREATE TABLE new_account AS
+SELECT username, created_on
+FROM account
+WHERE user_id > 3;
+
+
+How can you enter data into a table in SQL?
+
+INSERT INTO account (user_id, username, password, email, create_on)
+VALUES (1, 'Maria', 'password', 'maria_2@mail.com', CURRENT_TIMESTAMP );
+
+How can you change data in your table?
+
+UPDATE account
+SET email= 'maria_2@hotmail.com'
+WHERE user_id = 1;
+
+Name and describe 4 constraints you can add to columns in SQL.
+1. PRIMARY KEY – this constraint is the combination of NOT NULL and UNIQUE constraints. It uniquely identifies each record in a table.
+2. NOT NULL – the value of the column cannot be NULL .
+3. CHECK – enables to check a condition when one inserts or updates data.
+4. DEFAULT - used to set a default value for a column.
+
+Give an example for all of them.
+
+CREATE TABLE employees (
+emp_id SERIAL PRIMART KEY,
+first_name VARCHAR (50) NOT NULL,
+last_name VARCHAR (50) NOT NULL,
+birthdate date check (birthdate > '1900-01-01'),
+hire_date date check (hire_date > birthdate),
+salary integer check (salary > 0),
+city VARCHAR (50) DEFAULT 'Berlin');
+
+SELECTIONS
+How can you select all entries in a table in SQL?
+SELECT * FROM account;
+
+What are the meanings of NOT NULL, ORDER BY and WHERE in SQL?
+NOT NULL - used with IS to filter records without values.
+ORDER BY - allows a suer to sort the rows returned from the SELECT statement in ascending or descending order based on criteria specified by different criteria.
+WHERE - allows a user to add conditions so that to filter the rows returned from the SELECT statement.
+
+Give an example for all three of them.
+
+(NOT NULL)
+SELECT last_login
+FROM account
+WHERE last_login IS NOT NULL;
+
+(ORDER BY)
+SELECT customer_id, first_name, last_name, address_id FROM customer
+WHERE first_name LIKE 'E%' AND address_id < 500
+ORDER BY customer_id DESC
+LIMIT 1;
+
+(WHERE)
+SELECT first_name, last_name
+FROM customer
+WHERE first_name LIKE 'J%';
